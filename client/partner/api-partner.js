@@ -1,11 +1,11 @@
-const create = (user) => {
-  return fetch('/api/users/', {
+const create = (partner) => {
+  return fetch('/api/partners/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(partner)
     })
     .then((response) => {
       return response.json()
@@ -20,8 +20,8 @@ const list = () => {
   }).catch((err) => console.log(err))
 }
 
-const read = (params, credentials) => {
-  return fetch('/api/users/' + params.userId, {
+const readPartner = (params, credentials) => {
+  return fetch('/api/partners/' + params.partnerId, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -61,15 +61,15 @@ const remove = (params, credentials) => {
   }).catch((err) => console.log(err))
 }
 
-const registerPartner = (params, credentials, partnerId) => {
-  return fetch('/api/users/registerPartner/' + partnerId, {
+const follow = (params, credentials, followId) => {
+  return fetch('/api/users/follow/', {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + credentials.t
     },
-    body: JSON.stringify({userId:params.userId, partnerId: partnerId})
+    body: JSON.stringify({userId:params.userId, followId: followId})
   }).then((response) => {
     return response.json()
   }).catch((err) => {
@@ -77,15 +77,15 @@ const registerPartner = (params, credentials, partnerId) => {
   })
 }
 
-const unregisterPartner = (params, credentials, partnerId) => {
-  return fetch('/api/users/unregisterPartner/' + partnerId, {
+const unfollow = (params, credentials, unfollowId) => {
+  return fetch('/api/users/unfollow/', {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + credentials.t
     },
-    body: JSON.stringify({userId:params.userId, partnerId: partnerId})
+    body: JSON.stringify({userId:params.userId, unfollowId: unfollowId})
   }).then((response) => {
     return response.json()
   }).catch((err) => {
@@ -93,8 +93,8 @@ const unregisterPartner = (params, credentials, partnerId) => {
   })
 }
 
-const findPartners = (params, credentials) => {
-  return fetch('/api/users/findPartners/' + params.userId, {
+const findPeople = (params, credentials) => {
+  return fetch('/api/users/findpeople/' + params.userId, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -109,10 +109,10 @@ const findPartners = (params, credentials) => {
 export {
   create,
   list,
-  read,
+  readPartner,
   update,
   remove,
-  registerPartner,
-  unregisterPartner,
-  findPartners
+  follow,
+  unfollow,
+  findPeople
 }

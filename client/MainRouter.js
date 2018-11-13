@@ -6,6 +6,8 @@ import Signup from './user/Signup'
 import Signin from './auth/Signin'
 import EditProfile from './user/EditProfile'
 import Profile from './user/Profile'
+import AddPartner from './partner/AddPartner'
+import Partner from './partner/Partner'
 import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
 
@@ -28,6 +30,8 @@ class MainRouter extends Component {
         <Route path="/signin" component={Signin}/>
         <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
         <Route path="/user/:userId" component={Profile}/>
+        <Route path="/partner/add" component={AddPartner}/>
+        <Route path="/partner/:partnerId" component={Partner}/>
       </Switch>
     </div>)
   }

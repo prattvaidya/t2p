@@ -1,4 +1,5 @@
 import User from "../models/user.model";
+import Partner from "../models/partner.model";
 import _ from "lodash";
 import errorHandler from "./../helpers/dbErrorHandler";
 import formidable from "formidable";
@@ -138,7 +139,8 @@ const unregisterPartner = (req, res, next) => {
 };
 
 const findPartners = (req, res) => {
-  let partners = req.profile.partners;
+  //let partners = req.profile.partners;
+  let partners = undefined;
   Partner.find({ _id: { $nin: partners } }, (err, partners) => {
     if (err) {
       return res.status(400).json({

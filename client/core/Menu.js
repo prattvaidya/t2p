@@ -42,6 +42,9 @@ const Menu = withRouter(({history}) => (
           <Link to={"/user/" + auth.isAuthenticated().user._id}>
             <Button style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
           </Link>
+          <Link to="partner/add">
+            <Button style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>Add Partner</Button>
+          </Link>
           <Button color="inherit" onClick={() => {
               auth.signout(() => history.push('/'))
             }}>Sign out</Button>

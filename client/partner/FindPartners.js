@@ -8,8 +8,8 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import Typography from 'material-ui/Typography'
 import {Link} from 'react-router-dom'
-import {findPeople, follow} from './api-user.js'
-import auth from './../auth/auth-helper'
+import {findPartners, registerPartner} from '../user/api-user.js'
+import auth from '../auth/auth-helper'
 import Snackbar from 'material-ui/Snackbar'
 import ViewIcon from 'material-ui-icons/Visibility'
 
@@ -36,14 +36,14 @@ const styles = theme => ({
     verticalAlign: 'middle'
   }
 })
-class FindPeople extends Component {
+class FindPartners extends Component {
   state = {
-      users: [],
+      partners: [],
       open: false
   }
   componentDidMount = () => {
     const jwt = auth.isAuthenticated()
-    findPeople({
+    findPartners({
       userId: jwt.user._id
     }, {
       t: jwt.token
@@ -51,23 +51,23 @@ class FindPeople extends Component {
       if (data.error) {
         console.log(data.error)
       } else {
-        this.setState({users: data})
+        this.setState({partners: data})
       }
     })
   }
-  clickFollow = (user, index) => {
+  clickRegister = (partner, index) => {
     const jwt = auth.isAuthenticated()
-    follow({
+    registerPartner({
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, user._id).then((data) => {
+    }, partner._id).then((data) => {
       if (data.error) {
         this.setState({error: data.error})
       } else {
-        let toFollow = this.state.users
-        toFollow.splice(index, 1)
-        this.setState({users: toFollow, open: true, followMessage: `Following ${user.name}!`})
+        // let toRegister = this.state.partners
+        // toRegister.splice(index, 1)
+        this.setState({partners: this.state.partners, open: true, registrationMessage: `Registered to ${partner.name}!`})
       }
     })
   }
@@ -79,25 +79,25 @@ class FindPeople extends Component {
     return (<div>
       <Paper className={classes.root} elevation={4}>
         <Typography type="title" className={classes.title}>
-          Who to follow
+          Add your Loyalty Programs to your Wallet
         </Typography>
         <List>
-          {this.state.users.map((item, i) => {
+          {this.state.partners.map((item, i) => {
               return <span key={i}>
                 <ListItem>
                   <ListItemAvatar className={classes.avatar}>
-                      <Avatar src={'/api/users/photo/'+item._id}/>
+                      <Avatar src={'/api/partners/photo/'+item._id}/>
                   </ListItemAvatar>
                   <ListItemText primary={item.name}/>
                   <ListItemSecondaryAction className={classes.follow}>
-                    <Link to={"/user/" + item._id}>
+                    <Link to={"/partner/" + item._id}>
                       <IconButton variant="raised" color="secondary" className={classes.viewButton}>
                         <ViewIcon/>
                       </IconButton>
                     </Link>
-                    <Button aria-label="Follow" variant="raised" color="primary" onClick={this.clickFollow.bind(this, item, i)}>
-                      Follow
-                    </Button>
+                    {/* <Button aria-label="Register" variant="raised" color="primary" onClick={this.clickRegister.bind(this, item, i)}>
+                      Register
+                    </Button> */}
                   </ListItemSecondaryAction>
                 </ListItem>
               </span>
@@ -113,14 +113,14 @@ class FindPeople extends Component {
           open={this.state.open}
           onClose={this.handleRequestClose}
           autoHideDuration={6000}
-          message={<span className={classes.snack}>{this.state.followMessage}</span>}
+          message={<span className={classes.snack}>{this.state.registrationMessage}</span>}
       />
     </div>)
   }
 }
 
-FindPeople.propTypes = {
+FindPartners.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(FindPeople)
+export default withStyles(styles)(FindPartners)

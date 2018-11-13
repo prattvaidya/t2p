@@ -40,9 +40,9 @@ class Profile extends Component {
   constructor({match}) {
     super()
     this.state = {
-      user: {following:[], followers:[]},
+      user: {partners:[]},
       redirectToSignin: false,
-      following: false,
+      //following: false,
       posts: []
     }
     this.match = match
@@ -55,8 +55,9 @@ class Profile extends Component {
       if (data.error) {
         this.setState({redirectToSignin: true})
       } else {
-        let following = this.checkFollow(data)
-        this.setState({user: data, following: following})
+        //let following = this.checkFollow(data)
+        //this.setState({user: data, following: following})
+        this.setState({user: data})
         this.loadPosts(data._id)
       }
     })
@@ -67,27 +68,27 @@ class Profile extends Component {
   componentDidMount = () => {
     this.init(this.match.params.userId)
   }
-  checkFollow = (user) => {
-    const jwt = auth.isAuthenticated()
-    const match = user.followers.find((follower)=> {
-      return follower._id == jwt.user._id
-    })
-    return match
-  }
-  clickFollowButton = (callApi) => {
-    const jwt = auth.isAuthenticated()
-    callApi({
-      userId: jwt.user._id
-    }, {
-      t: jwt.token
-    }, this.state.user._id).then((data) => {
-      if (data.error) {
-        this.setState({error: data.error})
-      } else {
-        this.setState({user: data, following: !this.state.following})
-      }
-    })
-  }
+  // checkFollow = (user) => {
+  //   const jwt = auth.isAuthenticated()
+  //   const match = user.followers.find((follower)=> {
+  //     return follower._id == jwt.user._id
+  //   })
+  //   return match
+  // }
+  // clickFollowButton = (callApi) => {
+  //   const jwt = auth.isAuthenticated()
+  //   callApi({
+  //     userId: jwt.user._id
+  //   }, {
+  //     t: jwt.token
+  //   }, this.state.user._id).then((data) => {
+  //     if (data.error) {
+  //       this.setState({error: data.error})
+  //     } else {
+  //       this.setState({user: data, following: !this.state.following})
+  //     }
+  //   })
+  // }
   loadPosts = (user) => {
     const jwt = auth.isAuthenticated()
     listByUser({
@@ -137,7 +138,8 @@ class Profile extends Component {
                   </Link>
                   <DeleteUser userId={this.state.user._id}/>
                 </ListItemSecondaryAction>)
-            : (<FollowProfileButton following={this.state.following} onButtonClick={this.clickFollowButton}/>)
+            // : (<FollowProfileButton following={this.state.following} onButtonClick={this.clickFollowButton}/>)
+            : <div></div>
             }
           </ListItem>
           <Divider/>
