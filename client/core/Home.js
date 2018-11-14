@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Grid from "material-ui/Grid";
 import auth from "./../auth/auth-helper";
 import FindPartners from "./../partner/FindPartners";
+import MyPartners from "./../partner/MyPartners";
 
 const styles = theme => ({
   root: {
@@ -77,7 +78,10 @@ class Home extends Component {
         )}
         {!this.state.defaultPage && (
           <Grid container spacing={24}>
-            <Grid item xs={14} sm={12}>
+            <Grid item xs={5} sm={5}>
+              <MyPartners />
+            </Grid>
+            <Grid item xs={9} sm={7}>
               <FindPartners />
             </Grid>
           </Grid>

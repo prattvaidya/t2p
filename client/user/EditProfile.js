@@ -55,7 +55,7 @@ class EditProfile extends Component {
     this.state = {
       first_name: '',
       last_name: '',
-      about: '',
+      // about: '',
       photo: '',
       email: '',
       password: '',
@@ -74,7 +74,7 @@ class EditProfile extends Component {
       if (data.error) {
         this.setState({error: data.error})
       } else {
-        this.setState({id: data._id, first_name: data.first_name, last_name: data.last_name, email: data.email, about: data.about})
+        this.setState({id: data._id, first_name: data.first_name, last_name: data.last_name, email: data.email})
       }
     })
   }
@@ -85,7 +85,7 @@ class EditProfile extends Component {
       last_name: this.state.last_name || undefined,
       email: this.state.email || undefined,
       password: this.state.password || undefined,
-      about: this.state.about || undefined
+      // about: this.state.about || undefined
     }
     update({
       userId: this.match.params.userId
@@ -106,6 +106,14 @@ class EditProfile extends Component {
     this.userData.set(name, value)
     this.setState({ [name]: value })
   }
+
+  handleKeyPress = () => event => {
+    console.log(event)
+    if (event.key == "Enter") {
+      this.clickSubmit()
+    }
+  }
+
   render() {
     const {classes} = this.props
     const photoUrl = this.state.id
@@ -128,9 +136,9 @@ class EditProfile extends Component {
               <FileUpload/>
             </Button>
           </label> <span className={classes.filename}>{this.state.photo ? this.state.photo.name : ''}</span><br/>
-          <TextField id="first_name" label="First Name" className={classes.textField} value={this.state.first_name} onChange={this.handleChange('first_name')} margin="normal"/><br/>
+          <TextField id="first_name" label="First Name" className={classes.textField} value={this.state.first_name} onChange={this.handleChange('first_name')} autoFocus="true" margin="normal"/><br/>
           <TextField id="last_name" label="Last Name" className={classes.textField} value={this.state.last_name} onChange={this.handleChange('last_name')} margin="normal"/><br/>
-          <TextField
+          {/* <TextField
             id="multiline-flexible"
             label="About"
             multiline
@@ -139,9 +147,9 @@ class EditProfile extends Component {
             onChange={this.handleChange('about')}
             className={classes.textField}
             margin="normal"
-          /><br/>
+          /><br/> */}
           <TextField id="email" type="email" label="Email" className={classes.textField} value={this.state.email} onChange={this.handleChange('email')} margin="normal"/><br/>
-          <TextField id="password" type="password" label="Password" className={classes.textField} value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+          <TextField id="password" type="password" label="Password" className={classes.textField} value={this.state.password} onChange={this.handleChange('password')} onKeyPress={this.handleKeyPress()} margin="normal"/>
           <br/> {
             this.state.error && (<Typography component="p" color="error">
               <Icon color="error" className={classes.error}>error</Icon>
