@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
+var findOrCreate = require("mongoose-findorcreate");
+
 const UserSchema = new mongoose.Schema({
   first_name: {
     type: String,
@@ -28,9 +30,9 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  about: {
-    type: String,
-    trim: true
+  is_admin: {
+    type: Boolean,
+    default: false
   },
   photo: {
     data: Buffer,
@@ -38,6 +40,10 @@ const UserSchema = new mongoose.Schema({
   },
   partners: [{ type: mongoose.Schema.ObjectId, ref: "Partner" }]
 });
+
+//this is to add findOrCreate function to this schema
+
+UserSchema.plugin(findOrCreate);
 
 UserSchema.virtual("password")
   .set(function(password) {
