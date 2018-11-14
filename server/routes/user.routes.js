@@ -27,6 +27,10 @@ router
   .get(authCtrl.requireSignin, userCtrl.findPartners);
 
 router
+  .route("/api/users/myPartners/:userId")
+  .get(authCtrl.requireSignin, userCtrl.myPartners);
+
+router
   .route("/api/users/:userId")
   .get(authCtrl.requireSignin, userCtrl.read)
   .put(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.update)

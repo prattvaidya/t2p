@@ -8,7 +8,7 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import Typography from 'material-ui/Typography'
 import {Link} from 'react-router-dom'
-import {findPartners} from '../user/api-user.js'
+import {myPartners} from '../user/api-user.js'
 import auth from '../auth/auth-helper'
 import Snackbar from 'material-ui/Snackbar'
 import ViewIcon from 'material-ui-icons/Visibility'
@@ -36,14 +36,14 @@ const styles = theme => ({
     verticalAlign: 'middle'
   }
 })
-class FindPartners extends Component {
+class MyPartners extends Component {
   state = {
       partners: [],
       open: false
   }
   componentDidMount = () => {
     const jwt = auth.isAuthenticated()
-    findPartners({
+    myPartners({
       userId: jwt.user._id
     }, {
       t: jwt.token
@@ -79,7 +79,7 @@ class FindPartners extends Component {
     return (<div>
       <Paper className={classes.root} elevation={4}>
         <Typography type="title" className={classes.title}>
-          Add your Loyalty Programs to your Wallet
+          My Partners
         </Typography>
         <List>
           {this.state.partners.map((item, i) => {
@@ -119,8 +119,8 @@ class FindPartners extends Component {
   }
 }
 
-FindPartners.propTypes = {
+MyPartners.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(FindPartners)
+export default withStyles(styles)(MyPartners)

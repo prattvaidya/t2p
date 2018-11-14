@@ -139,8 +139,7 @@ const unregisterPartner = (req, res, next) => {
 };
 
 const findPartners = (req, res) => {
-  //let partners = req.profile.partners;
-  let partners = undefined;
+  let partners = req.profile.partners;
   Partner.find({ _id: { $nin: partners } }, (err, partners) => {
     if (err) {
       return res.status(400).json({
@@ -149,6 +148,11 @@ const findPartners = (req, res) => {
     }
     res.json(partners);
   }).select("name");
+};
+
+const myPartners = (req, res) => {
+  let partners = req.profile.partners;
+  res.json(partners);
 };
 
 export default {
@@ -162,5 +166,6 @@ export default {
   defaultPhoto,
   registerPartner,
   unregisterPartner,
-  findPartners
+  findPartners,
+  myPartners
 };
