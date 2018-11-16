@@ -1,5 +1,7 @@
 import User from "../models/user.model";
 import Partner from "../models/partner.model";
+import PartnerInternal from "../models/partner-internal.model";
+import PartnerUserXR from "../models/partner-user-xr.model";
 import _ from "lodash";
 import errorHandler from "./../helpers/dbErrorHandler";
 import formidable from "formidable";
@@ -14,6 +16,31 @@ const create = (req, res, next) => {
         error: errorHandler.getErrorMessage(err)
       });
     }
+
+    //Seed PartnerInternal data
+    Partner.find((err, partners) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler.getErrorMessage(err)
+        });
+      }
+      
+      //Loop through all the existing Partners and create a PartnerInternal file for the User
+      partners.forEach(p => {
+        const partnerInternal = new PartnerInternal({
+          partner: p,
+          email: user.email,
+          password: "123test",
+          points: (Math.floor(Math.random() * 1000) + 1)
+        });
+        partnerInternal.save((err,result) => {
+          if (err) {
+          }
+        });
+      });
+
+    });
+
     res.status(200).json({
       message: "Successfully signed up!"
     });
@@ -109,16 +136,52 @@ const defaultPhoto = (req, res) => {
 };
 
 const registerPartner = (req, res, next) => {
-  User.findByIdAndUpdate(
-    req.auth._id,
-    { $push: { partners: req.profile._id } },
-    (err, result) => {
-      if (err) {
-        return res.status(400).json({
-          error: errorHandler.getErrorMessage(err)
+  PartnerInternal.findOne(
+    {
+      partner: req.profile._id,
+      email: req.body.partnerCredentials.email
+    },
+    (err, partnerInternal) => {
+      if (err || !partnerInternal)
+        return res.status("401").json({
+          error: "User not found in Partner's records"
+        });
+
+      if (!partnerInternal.authenticate(req.body.partnerCredentials.password)) {
+        return res.status("401").send({
+          error: "Email and password don't match in Partner's records."
         });
       }
-      res.json({ message: "Registered Successfully" });
+
+      User.findByIdAndUpdate(
+        req.auth._id,
+        { $push: { partners: req.profile._id } },
+        (err, result) => {
+          if (err) {
+            return res.status(400).json({
+              error: errorHandler.getErrorMessage(err)
+            });
+          }
+
+          const partner_user_xr = new PartnerUserXR({
+            partner: req.profile,
+            user: req.auth,
+            points: partnerInternal.points,
+            updated: Date.now()
+          });
+
+          partner_user_xr.save((err,result) => {
+            if (err) {
+              console.log(err);
+              return res.status(400).json({
+                error: errorHandler.getErrorMessage(err)
+              });
+            }
+          });
+
+          res.json({ message: "Registered Successfully" });
+        }
+      );
     }
   );
 };
@@ -133,7 +196,18 @@ const unregisterPartner = (req, res, next) => {
           error: errorHandler.getErrorMessage(err)
         });
       }
-      res.json({ message: "Partner unregistered succesfully" });
+
+      console.log(req.profile._id);
+      console.log(req.auth._id);
+      
+      PartnerUserXR.find({partner: req.profile, user: req.auth}).remove((err, result) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({ message: "Partner unregistered succesfully" });
+      });
     }
   );
 };
@@ -151,8 +225,16 @@ const findPartners = (req, res) => {
 };
 
 const myPartners = (req, res) => {
-  let partners = req.profile.partners;
-  res.json(partners);
+  //let partners = req.profile.partners;
+  PartnerUserXR.find({ user: req.profile }, (err, partners) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(partners);
+  }).populate("partner").select("points updated");
 };
 
 export default {

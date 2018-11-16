@@ -1,4 +1,6 @@
 import User from "../models/user.model";
+import PartnerInternal from "../models/partner-internal.model";
+import PartnerUserXR from "../models/partner-user-xr.model";
 import jwt from "jsonwebtoken";
 import expressJwt from "express-jwt";
 import config from "./../../config/config";
@@ -29,6 +31,60 @@ const signin = (req, res) => {
 
       res.cookie("t", token, {
         expire: new Date() + 9999
+      });
+
+      //Random allocation of points to PartnerInternal data.
+      PartnerInternal.find({email: user.email}, (err, partnerInternals) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+          });
+        }
+        partnerInternals.forEach(pI => {
+          PartnerInternal.update(
+            {_id: pI._id},
+            {points: (Math.floor(Math.random() * 1000) + 1)},
+            {multi: false},
+            (err, result) => {
+              if (err) {
+                return res.status(400).json({
+                  error: errorHandler.getErrorMessage(err)
+                });
+              }
+          });
+        });
+      });
+
+      //Update PartnerUserXR with new data
+      PartnerUserXR.find({user: user}, (err, puxrs) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+          });
+        }
+        puxrs.forEach(puxr => {
+
+          PartnerInternal.find(
+            {partner: puxr.partner, email: user.email},
+            (err, result) => {
+              if (err) {
+                return res.status(400).json({
+                  error: errorHandler.getErrorMessage(err)
+                });
+              }
+              PartnerUserXR.update(
+                {_id: puxr._id},
+                {points: result[0].points, updated: Date.now()},
+                {multi: false},
+                (err, result) => {
+                  if (err) {
+                    return res.status(400).json({
+                      error: errorHandler.getErrorMessage(err)
+                    });
+                  }
+              });
+          });
+        });
       });
 
       return res.json({

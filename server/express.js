@@ -11,6 +11,7 @@ import authRoutes from "./routes/auth.routes";
 import postRoutes from "./routes/post.routes";
 import partnerRoutes from "./routes/partner.routes";
 import User from "./models/user.model";
+import Partner from "./models/partner.model";
 
 // modules for server side rendering
 import React from "react";
@@ -112,7 +113,6 @@ app.use((err, req, res, next) => {
 //This is the space to  create SEED data
 
 // Code to create an admin user
-
 User.findOrCreate(
   { email: "admin@ttp.com" },
   {
@@ -123,7 +123,48 @@ User.findOrCreate(
   },
   function(err, user, created) {
     // created will be true here
-    console.log("Successfully Created an Admin User");
+  }
+);
+
+// Code to create partners
+Partner.findOrCreate(
+  { name: "HDFC" },
+  {
+    industry: "Banking",
+    about: "India's #1 Banking firm"
+  },
+  function(err, partner, created) {
+    // created will be true here
+  }
+);
+Partner.findOrCreate(
+  { name: "Jet Airways" },
+  {
+    industry: "Aviation",
+    about: "India's #1 Aviation firm"
+  },
+  function(err, partner, created) {
+    // created will be true here
+  }
+);
+Partner.findOrCreate(
+  { name: "BookMyShow" },
+  {
+    industry: "Ticketing",
+    about: "India's #1 ticket booking destination"
+  },
+  function(err, partner, created) {
+    // created will be true here
+  }
+);
+Partner.findOrCreate(
+  { name: "Cleartrip" },
+  {
+    industry: "Travel",
+    about: "India's #1 travel booking destination"
+  },
+  function(err, partner, created) {
+    // created will be true here
   }
 );
 

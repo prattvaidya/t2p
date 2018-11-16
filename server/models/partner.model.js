@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
 import User from "./user.model";
+var findOrCreate = require("mongoose-findorcreate");
+
 const PartnerSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -26,6 +28,10 @@ const PartnerSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+//this is to add findOrCreate function to this schema
+
+PartnerSchema.plugin(findOrCreate);
 
 //a function to remove partners added to users when deleting a partner
 

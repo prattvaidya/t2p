@@ -71,7 +71,7 @@ class AddPartner extends Component {
           <Typography type="headline" component="h2" className={classes.title}>
             Add Partner
           </Typography>
-          <TextField id="name" label="Name" className={classes.textField} value={this.state.name} onChange={this.handleChange('name')} autoFocus="true" margin="normal"/><br/>
+          <TextField id="name" label="Name" className={classes.textField} value={this.state.name} onChange={this.handleChange('name')} autoFocus margin="normal"/><br/>
           <TextField id="industry" label="Industry" className={classes.textField} value={this.state.industry} onChange={this.handleChange('industry')} margin="normal"/><br/>
           <TextField
             id="multiline-flexible"

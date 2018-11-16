@@ -136,7 +136,7 @@ class EditProfile extends Component {
               <FileUpload/>
             </Button>
           </label> <span className={classes.filename}>{this.state.photo ? this.state.photo.name : ''}</span><br/>
-          <TextField id="first_name" label="First Name" className={classes.textField} value={this.state.first_name} onChange={this.handleChange('first_name')} autoFocus="true" margin="normal"/><br/>
+          <TextField id="first_name" label="First Name" className={classes.textField} value={this.state.first_name} onChange={this.handleChange('first_name')} autoFocus margin="normal"/><br/>
           <TextField id="last_name" label="Last Name" className={classes.textField} value={this.state.last_name} onChange={this.handleChange('last_name')} margin="normal"/><br/>
           {/* <TextField
             id="multiline-flexible"

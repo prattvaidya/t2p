@@ -81,7 +81,7 @@ class Signup extends Component {
           <Typography type="headline" component="h2" className={classes.title}>
             Sign Up
           </Typography>
-          <TextField id="first_name" label="First Name" className={classes.textField} value={this.state.first_name} onChange={this.handleChange('first_name')} autoFocus="true" margin="normal"/><br/>
+          <TextField id="first_name" label="First Name" className={classes.textField} value={this.state.first_name} onChange={this.handleChange('first_name')} autoFocus margin="normal"/><br/>
           <TextField id="last_name" label="Last Name" className={classes.textField} value={this.state._last_name} onChange={this.handleChange('last_name')} margin="normal"/><br/>
           <TextField id="email" type="email" label="Email" className={classes.textField} value={this.state.email} onChange={this.handleChange('email')} margin="normal"/><br/>
           <TextField id="password" type="password" label="Password" className={classes.textField} value={this.state.password} onChange={this.handleChange('password')} onKeyPress={this.handleKeyPress()} margin="normal"/>

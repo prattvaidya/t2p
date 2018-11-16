@@ -6,6 +6,7 @@ import List, {ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} f
 import Avatar from 'material-ui/Avatar'
 import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
+import Divider from 'material-ui/Divider'
 import Typography from 'material-ui/Typography'
 import {Link} from 'react-router-dom'
 import {myPartners} from '../user/api-user.js'
@@ -82,24 +83,37 @@ class MyPartners extends Component {
           My Partners
         </Typography>
         <List>
+          {this.state.partners.length == 0 && (
+            <Typography variant="caption" align="center">
+              Wow, such empty!
+            </Typography>
+          )}
           {this.state.partners.map((item, i) => {
               return <span key={i}>
+                {/* {i != 0 && (<Divider/>)} */}
                 <ListItem>
                   <ListItemAvatar className={classes.avatar}>
-                      <Avatar src={'/api/partners/photo/'+item._id}/>
+                      <Avatar src={'/api/partners/photo/'+item.partner._id}/>
                   </ListItemAvatar>
-                  <ListItemText primary={item.name}/>
-                  <ListItemSecondaryAction className={classes.follow}>
-                    <Link to={"/partner/" + item._id}>
-                      <IconButton variant="raised" color="secondary" className={classes.viewButton}>
+                  <Link to={"/partner/" + item.partner._id}>
+                    <ListItemText primary={item.partner.name}/>
+                      {/* <IconButton variant="raised" color="secondary" className={classes.viewButton}>
                         <ViewIcon/>
-                      </IconButton>
+                      </IconButton> */}
                     </Link>
-                    {/* <Button aria-label="Register" variant="raised" color="primary" onClick={this.clickRegister.bind(this, item, i)}>
+                  {/* <ListItemSecondaryAction className={classes.follow}>
+                    
+                    <Button aria-label="Register" variant="raised" color="primary" onClick={this.clickRegister.bind(this, item, i)}>
                       Register
-                    </Button> */}
+                    </Button>
+                  </ListItemSecondaryAction> */}
+                  <ListItemSecondaryAction>
+                  <ListItemText primary={item.points + " Points"} secondary={"Updated on: " + new Date(item.updated).getFullYear() + "-" + (new Date(item.updated).getMonth() + 1) + "-" + new Date(item.updated).getDate()}/>  
                   </ListItemSecondaryAction>
                 </ListItem>
+                {/* <ListItem>
+                  <ListItemText primary={item.points + " Points"} secondary={"Updated on: " + new Date(item.updated).getFullYear() + "-" + (new Date(item.updated).getMonth() + 1) + "-" + new Date(item.updated).getDate()}/>
+                </ListItem> */}
               </span>
             })
           }

@@ -61,7 +61,7 @@ const remove = (params, credentials) => {
   }).catch((err) => console.log(err))
 }
 
-const registerPartner = (params, credentials, partnerId) => {
+const registerPartner =   (params, credentials, partnerId, partnerCredentials) => {
   return fetch('/api/users/registerPartner/' + partnerId, {
     method: 'PUT',
     headers: {
@@ -69,7 +69,7 @@ const registerPartner = (params, credentials, partnerId) => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + credentials.t
     },
-    body: JSON.stringify({userId:params.userId, partnerId: partnerId})
+    body: JSON.stringify({userId:params.userId, partnerId: partnerId, partnerCredentials: partnerCredentials})
   }).then((response) => {
     return response.json()
   }).catch((err) => {

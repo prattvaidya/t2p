@@ -79,7 +79,7 @@ class FindPartners extends Component {
     return (<div>
       <Paper className={classes.root} elevation={4}>
         <Typography type="title" className={classes.title}>
-          Add your Loyalty Programs to your Wallet
+          Add Loyalty Programs to your Wallet
         </Typography>
         <List>
           {this.state.partners.map((item, i) => {
@@ -88,17 +88,20 @@ class FindPartners extends Component {
                   <ListItemAvatar className={classes.avatar}>
                       <Avatar src={'/api/partners/photo/'+item._id}/>
                   </ListItemAvatar>
-                  <ListItemText primary={item.name}/>
-                  <ListItemSecondaryAction className={classes.follow}>
+                  <Link to={"/partner/" + item._id}>
+                    <ListItemText primary={item.name}/>
+                  </Link>
+                  
+                  {/* <ListItemSecondaryAction className={classes.follow}>
                     <Link to={"/partner/" + item._id}>
                       <IconButton variant="raised" color="secondary" className={classes.viewButton}>
                         <ViewIcon/>
                       </IconButton>
                     </Link>
-                    {/* <Button aria-label="Register" variant="raised" color="primary" onClick={this.clickRegister.bind(this, item, i)}>
+                    <Button aria-label="Register" variant="raised" color="primary" onClick={this.clickRegister.bind(this, item, i)}>
                       Register
-                    </Button> */}
-                  </ListItemSecondaryAction>
+                    </Button>
+                  </ListItemSecondaryAction> */}
                 </ListItem>
               </span>
             })
