@@ -131,7 +131,8 @@ Partner.findOrCreate(
   { name: "HDFC" },
   {
     industry: "Banking",
-    about: "India's #1 Banking firm"
+    about: "India's #1 Banking firm",
+    conversion_rate: 5
   },
   function(err, partner, created) {
     // created will be true here
@@ -141,7 +142,8 @@ Partner.findOrCreate(
   { name: "Jet Airways" },
   {
     industry: "Aviation",
-    about: "India's #1 Aviation firm"
+    about: "India's #1 Aviation firm",
+    conversion_rate: 6
   },
   function(err, partner, created) {
     // created will be true here
@@ -151,17 +153,20 @@ Partner.findOrCreate(
   { name: "BookMyShow" },
   {
     industry: "Ticketing",
-    about: "India's #1 ticket booking destination"
+    about: "India's #1 ticket booking destination",
+    conversion_rate: 1
   },
   function(err, partner, created) {
     // created will be true here
+    console.log(err,partner,created);
   }
 );
 Partner.findOrCreate(
   { name: "Cleartrip" },
   {
     industry: "Travel",
-    about: "India's #1 travel booking destination"
+    about: "India's #1 travel booking destination",
+    conversion_rate: 2
   },
   function(err, partner, created) {
     // created will be true here

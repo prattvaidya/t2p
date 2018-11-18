@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 import User from "./user.model";
 var findOrCreate = require("mongoose-findorcreate");
-
+var SchemaTypes = mongoose.Schema.Types;
 const PartnerSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -21,6 +21,10 @@ const PartnerSchema = new mongoose.Schema({
   photo: {
     data: Buffer,
     contentType: String
+  },
+  conversion_rate: {
+    type: Number,
+    required:"Coversion factor is mandatory"
   },
   updated: Date,
   created: {

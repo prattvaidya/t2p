@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from 'material-ui/styles'
@@ -41,7 +42,8 @@ class AddPartner extends Component {
   state = {
       name: '',
       industry: '',
-      about: ''
+      about: '',
+      conversion_rate: ''
   }
 
   handleChange = name => event => {
@@ -52,7 +54,8 @@ class AddPartner extends Component {
     const partner = {
       name: this.state.name || undefined,
       industry: this.state.industry || undefined,
-      about: this.state.about || undefined
+      about: this.state.about || undefined,
+      conversion_rate: this.state.conversion_rate || undefined
     }
     create(partner).then((data) => {
       if (data.error) {
@@ -73,6 +76,7 @@ class AddPartner extends Component {
           </Typography>
           <TextField id="name" label="Name" className={classes.textField} value={this.state.name} onChange={this.handleChange('name')} autoFocus margin="normal"/><br/>
           <TextField id="industry" label="Industry" className={classes.textField} value={this.state.industry} onChange={this.handleChange('industry')} margin="normal"/><br/>
+          <TextField id="conversion_rate" label="Conversion Rate" className={classes.textField} value={this.state.conversion_rate} onChange={this.handleChange('conversion_rate')} margin="normal"/><br/>
           <TextField
             id="multiline-flexible"
             label="About"
