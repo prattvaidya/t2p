@@ -8,6 +8,7 @@ import EditProfile from './user/EditProfile'
 import Profile from './user/Profile'
 import AddPartner from './partner/AddPartner'
 import Partner from './partner/Partner'
+import Exchange from './transactions/Exchange'
 import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
 
@@ -32,6 +33,7 @@ class MainRouter extends Component {
         <Route path="/user/:userId" component={Profile}/>
         <Route path="/partner/add" component={AddPartner}/>
         <Route path="/partner/:partnerId" component={Partner}/>
+        <Route path="/exchange" component={Exchange}/>
       </Switch>
     </div>)
   }

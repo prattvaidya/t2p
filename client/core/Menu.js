@@ -45,6 +45,16 @@ const Menu = withRouter(({ history }) => (
               My Profile
             </Button>
           </Link>
+          <Link to={"/exchange"}>
+            <Button
+              style={isActive(
+                history,
+                "/exchange")}
+            >
+              Exchange
+            </Button>
+          </Link>
+
           {auth.isAdmin() && (
             <Link to="/partner/add">
               <Button style={isActive(history, "/partner/add")}>
