@@ -90,7 +90,7 @@ class MyPartners extends Component {
           )}
           {this.state.partners.map((item, i) => {
               return <span key={i}>
-              {console.log(item.partner)}
+              {/* {console.log(item.partner)} */}
                 {/* {i != 0 && (<Divider/>)} */}
                 <ListItem>
                   <ListItemAvatar className={classes.avatar}>

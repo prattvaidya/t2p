@@ -10,6 +10,7 @@ import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import postRoutes from "./routes/post.routes";
 import partnerRoutes from "./routes/partner.routes";
+import transactionRoutes from "./routes/transaction.routes";
 import User from "./models/user.model";
 import Partner from "./models/partner.model";
 
@@ -55,6 +56,7 @@ app.use("/", userRoutes);
 app.use("/", authRoutes);
 app.use("/", postRoutes);
 app.use("/", partnerRoutes);
+app.use("/", transactionRoutes);
 
 app.get("*", (req, res) => {
   const sheetsRegistry = new SheetsRegistry();
@@ -158,7 +160,6 @@ Partner.findOrCreate(
   },
   function(err, partner, created) {
     // created will be true here
-    console.log(err,partner,created);
   }
 );
 Partner.findOrCreate(
