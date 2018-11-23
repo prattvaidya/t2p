@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {Route, Switch} from 'react-router-dom'
+import React, { Component } from 'react'
+import { Route, Switch } from 'react-router-dom'
 import Home from './core/Home'
 import Users from './user/Users'
 import Signup from './user/Signup'
@@ -9,6 +9,7 @@ import Profile from './user/Profile'
 import AddPartner from './partner/AddPartner'
 import Partner from './partner/Partner'
 import Exchange from './transactions/Exchange'
+import Activity from './transactions/Activity'
 import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
 
@@ -23,17 +24,18 @@ class MainRouter extends Component {
 
   render() {
     return (<div>
-      <Menu/>
+      <Menu />
       <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route path="/users" component={Users}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/signin" component={Signin}/>
-        <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
-        <Route path="/user/:userId" component={Profile}/>
-        <Route path="/partner/add" component={AddPartner}/>
-        <Route path="/partner/:partnerId" component={Partner}/>
-        <Route path="/exchange" component={Exchange}/>
+        <Route exact path="/" component={Home} />
+        <Route path="/users" component={Users} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/signin" component={Signin} />
+        <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
+        <Route path="/user/:userId" component={Profile} />
+        <Route path="/partner/add" component={AddPartner} />
+        <Route path="/partner/:partnerId" component={Partner} />
+        <Route path="/exchange" component={Exchange} />
+        <Route path="/activity" component={Activity} />
       </Switch>
     </div>)
   }

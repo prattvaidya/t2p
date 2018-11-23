@@ -60,7 +60,7 @@ class Exchange extends Component {
   handleChange = name => event => {
     this.setState({ [name]: event.target.value })
     if (name == "points") {
-      debugger;
+      //debugger;
       this.convertPoints((event.target.value == "" ? 1 : event.target.value), this.state.fromPartner, this.state.toPartner);
     }
   }
@@ -92,7 +92,7 @@ class Exchange extends Component {
   }
 
   convertPoints(points, fromPartner, toPartner) {
-    debugger;
+    //debugger;
     let partner1 = this.state.partners.find((p) => {
       return p._id == (fromPartner.value != undefined ? fromPartner.value : "");
     });
@@ -128,7 +128,7 @@ class Exchange extends Component {
   }
 
   toggleExchangeFieldsDisplay(fromPartner, toPartner) {
-    debugger;
+    //debugger;
     let fromPartnerValue = fromPartner.value;
     let toPartnerValue = toPartner.value;
     if (fromPartnerValue != undefined && toPartnerValue != undefined) {
@@ -150,7 +150,6 @@ class Exchange extends Component {
         if (data.error) {
           console.log(data.error)
         } else {
-          console.log(data);
           this.setState({ partners: data })
           let partnerList = [];
           this.state.partners.forEach(p => {
@@ -171,14 +170,31 @@ class Exchange extends Component {
     }
     else {
 
+      const jwt = auth.isAuthenticated();
+
+      let debit_partner = this.state.partners.find((p) => {
+        return p._id == (this.state.fromPartner.value != undefined ? this.state.fromPartner.value : "");
+      }).partner._id;
+
+      let credit_partner = this.state.partners.find((p) => {
+        return p._id == (this.state.toPartner.value != undefined ? this.state.toPartner.value : "");
+      }).partner._id;
+
       const info = {
         userPartner1XRId: this.state.fromPartner.value || undefined,
         userPartner2XRId: this.state.toPartner.value || undefined,
-        partner1points: (this.state.partner1balance - this.state.points).toFixed(2),
-        partner2points: (parseFloat(this.state.partner2balance) + parseFloat(this.state.conversionFactor)).toFixed(2)
+        debit_partner: debit_partner,
+        credit_partner: credit_partner,
+        user: jwt.user,
+        // partner1points: (this.state.partner1balance - this.state.points).toFixed(2),
+        // partner2points: (parseFloat(this.state.partner2balance) + parseFloat(this.state.conversionFactor)).toFixed(2)
+        partner1points: (parseFloat(this.state.points)).toFixed(2),
+        partner2points: (parseFloat(this.state.conversionFactor)).toFixed(2)
       }
 
-      exchangePoints(info).then((data) => {
+      exchangePoints(info, {
+        t: jwt.token
+      }).then((data) => {
         if (data.error) {
           this.setState({ error: data.error })
         } else {
@@ -224,7 +240,7 @@ class Exchange extends Component {
                 <b>{this.state.points == "" ? 1 : this.state.points}</b> {this.state.fromPartner.label} point(s) = <b>{this.state.conversionFactor}</b> {this.state.toPartner.label} point(s)
         </Typography>
               <Typography type="headline" component="h2" style={{ textAlign: "left", marginLeft: "25%" }}>
-                Available Balance: <b>{this.state.partner1balance}</b>
+                Available Balance: <b>{this.state.partner1balance.toFixed(2)}</b>
               </Typography>
               <TextField id="points" label="Enter points to exchange" className={classes.textField} value={this.state.points} onChange={this.handleChange('points')} autoFocus margin="normal" style={{ marginTop: "10%" }} />
 
