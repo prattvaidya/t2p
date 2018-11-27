@@ -38,6 +38,9 @@ const styles = theme => ({
   submit: {
     margin: 'auto',
     marginBottom: theme.spacing.unit * 2
+  },
+  select: {
+    fontFamily: 'Roboto'
   }
 })
 
@@ -216,7 +219,7 @@ class Exchange extends Component {
                 <Typography type="headline" component="h2" className={classes.title}>
                   Exchange points from:
             </Typography>
-                <Select
+                <Select className={classes.select}
                   options={this.state.fromPartnerList}
                   onChange={this.handleFromDropdownChange}
                 />
@@ -227,7 +230,7 @@ class Exchange extends Component {
                 <Typography type="headline" component="h2" className={classes.title}>
                   Exchange points to:
             </Typography>
-                <Select
+                <Select className={classes.select}
                   options={this.state.toPartnerList}
                   onChange={this.handleToDropdownChange}
                 />

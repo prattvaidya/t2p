@@ -35,42 +35,57 @@ const Menu = withRouter(({ history }) => (
       )}
       {auth.isAuthenticated() && (
         <span>
-          <Link to={"/user/" + auth.isAuthenticated().user._id}>
-            <Button
-              style={isActive(
-                history,
-                "/user/" + auth.isAuthenticated().user._id
-              )}
-            >
-              My Profile
+          <span>
+            {!auth.isAdmin() && (
+              <span>
+                <Link to={"/user/" + auth.isAuthenticated().user._id}>
+                  <Button
+                    style={isActive(
+                      history,
+                      "/user/" + auth.isAuthenticated().user._id
+                    )}
+                  >
+                    My Profile
             </Button>
-          </Link>
-          <Link to={"/exchange"}>
-            <Button
-              style={isActive(
-                history,
-                "/exchange")}
-            >
-              Exchange
+                </Link>
+                <Link to={"/exchange"}>
+                  <Button
+                    style={isActive(
+                      history,
+                      "/exchange")}
+                  >
+                    Exchange
             </Button>
-          </Link>
-          <Link to={"/activity"}>
-            <Button
-              style={isActive(
-                history,
-                "/activity")}
-            >
-              Activity
+                </Link>
+                <Link to={"/activity"}>
+                  <Button
+                    style={isActive(
+                      history,
+                      "/activity")}
+                  >
+                    Activity
             </Button>
-          </Link>
+                </Link>
+              </span>
+            )}
 
-          {auth.isAdmin() && (
-            <Link to="/partner/add">
-              <Button style={isActive(history, "/partner/add")}>
-                Add Partner
+            {auth.isAdmin() && (
+              <span>
+                <Link to="/partner/add">
+                  <Button style={isActive(history, "/partner/add")}>
+                    Partners
               </Button>
-            </Link>
-          )}
+                </Link>
+                <Link to="/redeem-partners">
+                  <Button style={isActive(history, "/redeem-partners")}>
+                    Redeem Partners
+            </Button>
+                </Link>
+              </span>
+            )}
+          </span>
+
+
           <Button
             color="inherit"
             onClick={() => {
@@ -82,7 +97,7 @@ const Menu = withRouter(({ history }) => (
         </span>
       )}
     </Toolbar>
-  </AppBar>
+  </AppBar >
 ));
 
 export default Menu;

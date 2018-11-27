@@ -12,7 +12,7 @@ const PartnerSchema = new mongoose.Schema({
   industry: {
     type: String,
     trim: true,
-    required: "industry is required"
+    required: "Industry is required"
   },
   about: {
     type: String,
@@ -24,7 +24,7 @@ const PartnerSchema = new mongoose.Schema({
   },
   conversion_rate: {
     type: Number,
-    required:"Coversion factor is mandatory"
+    required: "Coversion factor is mandatory"
   },
   updated: Date,
   created: {
@@ -39,7 +39,7 @@ PartnerSchema.plugin(findOrCreate);
 
 //a function to remove partners added to users when deleting a partner
 
-PartnerSchema.pre("remove", function(next) {
+PartnerSchema.pre("remove", function (next) {
   // 'this' is the client being removed. Provide callbacks here if you want
   // to be notified of the calls' result.
   User.updateMany({}, { $pull: { partners: this._id } }, { upsert: true });

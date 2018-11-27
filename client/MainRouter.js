@@ -8,6 +8,8 @@ import EditProfile from './user/EditProfile'
 import Profile from './user/Profile'
 import AddPartner from './partner/AddPartner'
 import Partner from './partner/Partner'
+import RedeemPartners from './redeem-partner/RedeemPartners'
+import AddRedeemPartner from './redeem-partner/AddRedeemPartner'
 import Exchange from './transactions/Exchange'
 import Activity from './transactions/Activity'
 import PrivateRoute from './auth/PrivateRoute'
@@ -33,6 +35,8 @@ class MainRouter extends Component {
         <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
         <Route path="/user/:userId" component={Profile} />
         <Route path="/partner/add" component={AddPartner} />
+        <Route path="/redeem-partners/add" component={AddRedeemPartner} />
+        <Route path="/redeem-partners/" component={RedeemPartners} />
         <Route path="/partner/:partnerId" component={Partner} />
         <Route path="/exchange" component={Exchange} />
         <Route path="/activity" component={Activity} />

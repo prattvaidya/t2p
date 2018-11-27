@@ -10,6 +10,7 @@ import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import postRoutes from "./routes/post.routes";
 import partnerRoutes from "./routes/partner.routes";
+import redeemPartnerRoutes from "./routes/redeem-partner.routes";
 import transactionRoutes from "./routes/transaction.routes";
 import User from "./models/user.model";
 import Partner from "./models/partner.model";
@@ -56,6 +57,7 @@ app.use("/", userRoutes);
 app.use("/", authRoutes);
 app.use("/", postRoutes);
 app.use("/", partnerRoutes);
+app.use("/", redeemPartnerRoutes);
 app.use("/", transactionRoutes);
 
 app.get("*", (req, res) => {
@@ -123,7 +125,7 @@ User.findOrCreate(
     password: "123test",
     is_admin: true
   },
-  function(err, user, created) {
+  function (err, user, created) {
     // created will be true here
   }
 );
@@ -136,7 +138,7 @@ Partner.findOrCreate(
     about: "India's #1 Banking firm",
     conversion_rate: 5
   },
-  function(err, partner, created) {
+  function (err, partner, created) {
     // created will be true here
   }
 );
@@ -147,7 +149,7 @@ Partner.findOrCreate(
     about: "India's #1 Aviation firm",
     conversion_rate: 6
   },
-  function(err, partner, created) {
+  function (err, partner, created) {
     // created will be true here
   }
 );
@@ -158,7 +160,7 @@ Partner.findOrCreate(
     about: "India's #1 ticket booking destination",
     conversion_rate: 1
   },
-  function(err, partner, created) {
+  function (err, partner, created) {
     // created will be true here
   }
 );
@@ -169,7 +171,7 @@ Partner.findOrCreate(
     about: "India's #1 travel booking destination",
     conversion_rate: 2
   },
-  function(err, partner, created) {
+  function (err, partner, created) {
     // created will be true here
   }
 );
