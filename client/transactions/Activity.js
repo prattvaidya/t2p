@@ -40,7 +40,8 @@ const styles = theme => ({
 })
 class Activity extends Component {
     state = {
-        activities: []
+        exchangeActivities: [],
+        redeemActivities: []
     }
     componentDidMount = () => {
         const jwt = auth.isAuthenticated()
@@ -52,7 +53,16 @@ class Activity extends Component {
                 if (data.error) {
                     console.log(data.error)
                 } else {
-                    this.setState({ activities: data })
+                    const exchangeActivities = data.filter((p) => {
+                        return p.activity_type == 'exchange';
+                    });
+                    const redeemActivities = data.filter((p) => {
+                        return p.activity_type == 'redeem';
+                    });
+                    this.setState({
+                        exchangeActivities: exchangeActivities,
+                        redeemActivities: redeemActivities,
+                    })
                 }
             })
     }
@@ -68,12 +78,12 @@ class Activity extends Component {
                                 Exchange History
                             </Typography>
                             <List>
-                                {this.state.activities.length == 0 && (
+                                {this.state.exchangeActivities.length == 0 && (
                                     <Typography variant="caption" align="center">
                                         Wow, such empty!
                                     </Typography>
                                 )}
-                                {this.state.activities.map((item, i) => {
+                                {this.state.exchangeActivities.map((item, i) => {
                                     return <span key={i}>
                                         <ListItem>
                                             <ListItemText primary={item.debit_points + " points from " + item.debit_partner.name} secondary="DEBITED" />
@@ -93,6 +103,25 @@ class Activity extends Component {
                             <Typography type="title" className={classes.title}>
                                 Redeemed Points History
                             </Typography>
+                            <List>
+                                {this.state.redeemActivities.length == 0 && (
+                                    <Typography variant="caption" align="center">
+                                        Wow, such empty!
+                                    </Typography>
+                                )}
+                                {this.state.redeemActivities.map((item, i) => {
+                                    return <span key={i}>
+                                        <ListItem>
+                                            <ListItemText primary={item.debit_points + " points from " + item.debit_partner.name} secondary="DEBITED" />
+                                            <ListItemText style={{ textAlign: "right" }} primary={item.redeem_points + " points through " + item.redeem_partner.name} secondary="REDEEMED" />
+                                        </ListItem>
+                                        {/* <ListItemSecondaryAction>
+                                            <ListItemText primary={new Date(item.updated).getFullYear() + "-" + (new Date(item.updated).getMonth() + 1) + "-" + new Date(item.updated).getDate()} />
+                                        </ListItemSecondaryAction> */}
+                                    </span>
+                                })
+                                }
+                            </List>
                         </Paper>
                     </Grid>
                 </Grid>

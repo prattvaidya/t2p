@@ -10,6 +10,10 @@ router
   .post(authCtrl.requireSignin, transactionCtrl.exchangePoints);
 
 router
+  .route("/api/transactions/redeem")
+  .post(authCtrl.requireSignin, transactionCtrl.redeemPoints);
+
+router
   .route("/api/transactions/myActivity/:userId")
   .get(authCtrl.requireSignin, transactionCtrl.myActivity);
 

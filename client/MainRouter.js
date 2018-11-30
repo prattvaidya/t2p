@@ -4,6 +4,7 @@ import Home from './core/Home'
 import Users from './user/Users'
 import Signup from './user/Signup'
 import Signin from './auth/Signin'
+import Verify from './auth/Verify'
 import EditProfile from './user/EditProfile'
 import Profile from './user/Profile'
 import AddPartner from './partner/AddPartner'
@@ -11,6 +12,7 @@ import Partner from './partner/Partner'
 import RedeemPartners from './redeem-partner/RedeemPartners'
 import AddRedeemPartner from './redeem-partner/AddRedeemPartner'
 import Exchange from './transactions/Exchange'
+import Redeem from './transactions/Redeem'
 import Activity from './transactions/Activity'
 import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
@@ -39,7 +41,9 @@ class MainRouter extends Component {
         <Route path="/redeem-partners/" component={RedeemPartners} />
         <Route path="/partner/:partnerId" component={Partner} />
         <Route path="/exchange" component={Exchange} />
+        <Route path="/redeem" component={Redeem} />
         <Route path="/activity" component={Activity} />
+        <Route path="/verify/:verificationString" component={Verify} />
       </Switch>
     </div>)
   }

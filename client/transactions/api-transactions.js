@@ -26,7 +26,37 @@ const myActivity = (user, credentials) => {
   }).catch((err) => console.log(err))
 }
 
+const fetchRedeemPartners = (credentials) => {
+  return fetch('/api/redeem-partners', {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + credentials.t
+    }
+  }).then((response) => {
+    return response.json()
+  }).catch((err) => console.log(err))
+}
+
+const redeemPoints = (info, credentials) => {
+  return fetch('/api/transactions/redeem/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + credentials.t
+    },
+    body: JSON.stringify(info)
+  })
+    .then((response) => {
+      return response.json()
+    }).catch((err) => console.log(err))
+}
+
 export {
   exchangePoints,
-  myActivity
+  myActivity,
+  fetchRedeemPartners,
+  redeemPoints
 }

@@ -40,20 +40,27 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 2
   },
   select: {
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    marginTop: '2%'
   }
 })
 
 class Exchange extends Component {
   state = {
     partners: [],
+
     fromPartnerList: [],
     toPartnerList: [],
+
     fromPartner: {},
     toPartner: {},
+
     points: '',
+
     conversionFactor: 0,
+
     displayExchangeFields: false,
+
     partner1balance: 0,
     partner2balance: 0,
     error: '',
@@ -214,8 +221,9 @@ class Exchange extends Component {
       <React.Fragment>
         <div>
           <Grid container spacing={24}>
-            <Grid item xs={6} sm={6}>
-              <div style={{ padding: "10%" }}>
+            <Grid item xs={0} sm={0} lg={2}></Grid>
+            <Grid item xs={12} sm={12} lg={4}>
+              <div style={{ padding: "5%" }}>
                 <Typography type="headline" component="h2" className={classes.title}>
                   Exchange points from:
             </Typography>
@@ -225,8 +233,8 @@ class Exchange extends Component {
                 />
               </div>
             </Grid>
-            <Grid item xs={6} sm={6}>
-              <div style={{ padding: "10%" }}>
+            <Grid item xs={12} sm={12} lg={4}>
+              <div style={{ padding: "5%" }}>
                 <Typography type="headline" component="h2" className={classes.title}>
                   Exchange points to:
             </Typography>
@@ -236,6 +244,7 @@ class Exchange extends Component {
                 />
               </div>
             </Grid>
+            <Grid item xs={0} sm={0} lg={2}></Grid>
           </Grid>
           {this.state.displayExchangeFields && (
             <div className={classes.card}>

@@ -44,27 +44,32 @@ const Menu = withRouter(({ history }) => (
                       history,
                       "/user/" + auth.isAuthenticated().user._id
                     )}
-                  >
-                    My Profile
-            </Button>
+                  >My Profile
+                  </Button>
                 </Link>
                 <Link to={"/exchange"}>
                   <Button
                     style={isActive(
                       history,
                       "/exchange")}
-                  >
-                    Exchange
-            </Button>
+                  >Exchange
+                  </Button>
+                </Link>
+                <Link to={"/redeem"}>
+                  <Button
+                    style={isActive(
+                      history,
+                      "/redeem")}
+                  >Redeem
+                  </Button>
                 </Link>
                 <Link to={"/activity"}>
                   <Button
                     style={isActive(
                       history,
                       "/activity")}
-                  >
-                    Activity
-            </Button>
+                  >Activity
+                  </Button>
                 </Link>
               </span>
             )}
@@ -72,14 +77,10 @@ const Menu = withRouter(({ history }) => (
             {auth.isAdmin() && (
               <span>
                 <Link to="/partner/add">
-                  <Button style={isActive(history, "/partner/add")}>
-                    Partners
-              </Button>
+                  <Button style={isActive(history, "/partner/add")}>Partners</Button>
                 </Link>
                 <Link to="/redeem-partners">
-                  <Button style={isActive(history, "/redeem-partners")}>
-                    Redeem Partners
-            </Button>
+                  <Button style={isActive(history, "/redeem-partners")}>Redeem Partners</Button>
                 </Link>
               </span>
             )}

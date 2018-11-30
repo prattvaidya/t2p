@@ -22,6 +22,12 @@ const signin = (req, res) => {
         });
       }
 
+      if (!user.is_verified) {
+        return res.status("401").send({
+          error: "Account is not verified."
+        });
+      }
+
       const token = jwt.sign(
         {
           _id: user._id
@@ -34,7 +40,7 @@ const signin = (req, res) => {
       });
 
       //Random allocation of points to PartnerInternal data.
-      PartnerInternal.find({email: user.email}, (err, partnerInternals) => {
+      PartnerInternal.find({ email: user.email }, (err, partnerInternals) => {
         if (err) {
           return res.status(400).json({
             error: errorHandler.getErrorMessage(err)
@@ -42,21 +48,21 @@ const signin = (req, res) => {
         }
         partnerInternals.forEach(pI => {
           PartnerInternal.update(
-            {_id: pI._id},
-            {points: (Math.floor(Math.random() * 1000) + 1)},
-            {multi: false},
+            { _id: pI._id },
+            { points: (Math.floor(Math.random() * 1000) + 1) },
+            { multi: false },
             (err, result) => {
               if (err) {
                 return res.status(400).json({
                   error: errorHandler.getErrorMessage(err)
                 });
               }
-          });
+            });
         });
       });
 
       //Update PartnerUserXR with new data
-      PartnerUserXR.find({user: user}, (err, puxrs) => {
+      PartnerUserXR.find({ user: user }, (err, puxrs) => {
         if (err) {
           return res.status(400).json({
             error: errorHandler.getErrorMessage(err)
@@ -64,26 +70,33 @@ const signin = (req, res) => {
         }
         puxrs.forEach(puxr => {
 
-          PartnerInternal.find(
-            {partner: puxr.partner, email: user.email},
+          PartnerInternal.findOne(
+            { partner: puxr.partner, email: puxr.username },
             (err, result) => {
               if (err) {
                 return res.status(400).json({
                   error: errorHandler.getErrorMessage(err)
                 });
               }
+              if (!result.authenticate(puxr.password)) {
+
+                return res.status("401").send({
+                  error: "Partner credentials don't match."
+                });
+              }
+
               PartnerUserXR.update(
-                {_id: puxr._id},
-                {points: result[0].points, updated: Date.now()},
-                {multi: false},
+                { _id: puxr._id },
+                { points: result.points, updated: Date.now() },
+                { multi: false },
                 (err, result) => {
                   if (err) {
                     return res.status(400).json({
                       error: errorHandler.getErrorMessage(err)
                     });
                   }
-              });
-          });
+                });
+            });
         });
       });
 
@@ -107,6 +120,25 @@ const signout = (req, res) => {
   });
 };
 
+const verify = (req, res) => {
+  // console.log(req.profile[0]._id)
+  User.update(
+    { _id: req.profile[0]._id },
+    { is_verified: true },
+    { multi: false },
+    (err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler.getErrorMessage(err)
+        });
+      }
+
+      res.status(200).json({
+        message: "User verified successfully!"
+      });
+    });
+}
+
 const requireSignin = expressJwt({
   secret: config.jwtSecret,
   userProperty: "auth"
@@ -126,5 +158,6 @@ export default {
   signin,
   signout,
   requireSignin,
-  hasAuthorization
+  hasAuthorization,
+  verify
 };

@@ -61,10 +61,18 @@ class AddRedeemPartner extends Component {
 
   handleKeyPress = () => event => {
     if (event.key == "Enter") {
-      const denomination = event.target.value
-      if (denomination != '' && parseInt(denomination) > 0) {
-        if (!isNaN(denomination)) {
+      this.addDenomination(event.target.value)
+    }
+  }
 
+  handleBlur = () => event => {
+    this.addDenomination(event.target.value)
+  }
+
+  addDenomination = (denomination) => {
+    if (denomination != '' && parseInt(denomination) > 0) {
+      if (!isNaN(denomination)) {
+        if (!this.state.denominations.includes(parseInt(denomination))) {
           let chipDataCopy = this.state.chipData
           chipDataCopy.push({
             key: this.state.chipData.length,
@@ -105,7 +113,7 @@ class AddRedeemPartner extends Component {
   }
 
   handleDelete = data => () => {
-    ithis.setState(state => {
+    this.setState(state => {
       const chipData = [...state.chipData];
       const chipToDelete = chipData.indexOf(data);
       chipData.splice(chipToDelete, 1);
@@ -134,7 +142,7 @@ class AddRedeemPartner extends Component {
             className={classes.textField}
             margin="normal"
           />
-          <TextField id="denominations" label="Denominations" className={classes.textField} value={this.state.enteredDenomination} onChange={this.handleChange('enteredDenomination')} onKeyPress={this.handleKeyPress()} margin="normal" /><br />
+          <TextField id="denominations" label="Denominations" className={classes.textField} value={this.state.enteredDenomination} onChange={this.handleChange('enteredDenomination')} onKeyPress={this.handleKeyPress()} onBlur={this.handleBlur()} margin="normal" /><br />
           {this.state.chipData.map(data => {
             // let icon = null;
 

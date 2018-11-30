@@ -9,8 +9,11 @@ const ActivitySchema = new mongoose.Schema({
   },
   credit_partner: { type: mongoose.Schema.ObjectId, ref: "Partner" },
   credit_points: {
-    type: Number,
-    default: 0
+    type: Number
+  },
+  redeem_partner: { type: mongoose.Schema.ObjectId, ref: "RedeemPartner" },
+  redeem_points: {
+    type: Number
   },
   // message: {
   //   type: String,

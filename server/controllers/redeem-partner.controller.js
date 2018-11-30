@@ -45,7 +45,7 @@ const list = (req, res) => {
       });
     }
     res.json(redeemPartners);
-  }).select("name category tnc updated created");
+  }).select("name category tnc conversion_rate denominations updated created");
 };
 
 // const update = (req, res, next) => {

@@ -15,8 +15,8 @@ const PartnerInternalSchema = new mongoose.Schema({
   },
   salt: String,
   points: {
-      type: Number,
-      default: 0
+    type: Number,
+    default: 0
   },
   updated: Date,
   created: {
@@ -26,16 +26,16 @@ const PartnerInternalSchema = new mongoose.Schema({
 });
 
 PartnerInternalSchema.virtual("password")
-  .set(function(password) {
+  .set(function (password) {
     this._password = password;
     this.salt = this.makeSalt();
     this.hashed_password = this.encryptPassword(password);
   })
-  .get(function() {
+  .get(function () {
     return this._password;
   });
 
-PartnerInternalSchema.path("hashed_password").validate(function(v) {
+PartnerInternalSchema.path("hashed_password").validate(function (v) {
   if (this._password && this._password.length < 6) {
     this.invalidate("password", "Password must be at least 6 characters.");
   }
@@ -45,10 +45,10 @@ PartnerInternalSchema.path("hashed_password").validate(function(v) {
 }, null);
 
 PartnerInternalSchema.methods = {
-  authenticate: function(plainText) {
+  authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;
   },
-  encryptPassword: function(password) {
+  encryptPassword: function (password) {
     if (!password) return "";
     try {
       return crypto
@@ -59,7 +59,7 @@ PartnerInternalSchema.methods = {
       return "";
     }
   },
-  makeSalt: function() {
+  makeSalt: function () {
     return Math.round(new Date().valueOf() * Math.random()) + "";
   }
 };
