@@ -2,7 +2,7 @@
 
 #
 
-#### What you need to run this code
+#### What you need to install in order to run this code:
 
 1. Node (8.11.1)
 2. NPM (5.8.0)
