@@ -5,8 +5,8 @@ import PartnerUserXR from "../models/partner-user-xr.model";
 import _ from "lodash";
 import errorHandler from "./../helpers/dbErrorHandler";
 import formidable from "formidable";
-import nodemailer from 'nodemailer'
-import config from "./../../config/config"
+import nodemailer from "nodemailer";
+import config from "./../../config/config";
 import fs from "fs";
 import profileImage from "./../../client/assets/images/profile-pic.png";
 
@@ -33,43 +33,46 @@ const create = (req, res, next) => {
           partner: p,
           email: user.email,
           password: "123test",
-          points: (Math.floor(Math.random() * 1000) + 1)
+          points: Math.floor(Math.random() * 1000) + 1
         });
         partnerInternal.save((err, result) => {
           if (err) {
           }
         });
       });
+    });
 
+    res.status(200).json({
+      message: "Successfully signed up!"
     });
 
     //Send verification email
-    let transporter = nodemailer.createTransport({
-      service: config.email_service,
-      auth: {
-        user: config.email_username,
-        pass: config.email_pwd
-      }
-    })
+    // let transporter = nodemailer.createTransport({
+    //   service: config.email_service,
+    //   auth: {
+    //     user: config.email_username,
+    //     pass: config.email_pwd
+    //   }
+    // })
 
-    let mailOptions = {
-      from: config.email_username,
-      to: user.email,
-      subject: 'Please verify your account',
-      text: 'Please click on this link: http://localhost:3000/verify/' + user.verification_string
-    }
+    // let mailOptions = {
+    //   from: config.email_username,
+    //   to: user.email,
+    //   subject: 'Please verify your account',
+    //   text: 'Please click on this link: http://localhost:3000/verify/' + user.verification_string
+    // }
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return res.status(400).json({
-          error: errorHandler.getErrorMessage(error)
-        });
-      }
+    // transporter.sendMail(mailOptions, (error, info) => {
+    //   if (error) {
+    //     return res.status(400).json({
+    //       error: errorHandler.getErrorMessage(error)
+    //     });
+    //   }
 
-      res.status(200).json({
-        message: "Successfully signed up!"
-      });
-    })
+    //   res.status(200).json({
+    //     message: "Successfully signed up!"
+    //   });
+    // })
   });
 };
 
@@ -90,15 +93,14 @@ const userByID = (req, res, next, id) => {
 };
 
 const userByVerificationString = (req, res, next, id) => {
-  User.find({ verification_string: id })
-    .exec((err, user) => {
-      if (err || !user)
-        return res.status("400").json({
-          error: "User not found"
-        });
-      req.profile = user;
-      next();
-    });
+  User.find({ verification_string: id }).exec((err, user) => {
+    if (err || !user)
+      return res.status("400").json({
+        error: "User not found"
+      });
+    req.profile = user;
+    next();
+  });
 };
 
 const read = (req, res) => {
@@ -237,14 +239,16 @@ const unregisterPartner = (req, res, next) => {
         });
       }
 
-      PartnerUserXR.find({ partner: req.profile, user: req.auth }).remove((err, result) => {
-        if (err) {
-          return res.status(400).json({
-            error: errorHandler.getErrorMessage(err)
-          });
+      PartnerUserXR.find({ partner: req.profile, user: req.auth }).remove(
+        (err, result) => {
+          if (err) {
+            return res.status(400).json({
+              error: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({ message: "Partner unregistered succesfully" });
         }
-        res.json({ message: "Partner unregistered succesfully" });
-      });
+      );
     }
   );
 };
@@ -271,7 +275,9 @@ const myPartners = (req, res) => {
       });
     }
     res.json(partners);
-  }).populate("partner").select("points updated");
+  })
+    .populate("partner")
+    .select("points updated");
 };
 
 export default {
